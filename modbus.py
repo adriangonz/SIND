@@ -3,13 +3,14 @@
 from pymodbus.client.sync import ModbusSerialClient
 from datetime import datetime
 
+
 class ModbusClient(object):
 
     """Cliente ModBus sencillo"""
 
-    def __init__(self, device, port='/dev/ttyUSB0'):
+    def __init__(self, device_id, port='/dev/ttyUSB0'):
         super(ModbusClient, self).__init__()
-        self.device = device
+        self.device_id = device_id
         self.client = ModbusSerialClient(method='rtu', port=port,
                                          baudrate=9600, bytesize=8,
                                          parity='N', stopbits=2,
@@ -17,12 +18,12 @@ class ModbusClient(object):
 
     def write_registers(self, address, data):
         """ Escribe una serie de registros en el dispositivo """
-        self.client.write_registers(address, data, unit=self.unit)
+        self.client.write_registers(address, data, unit=self.device_id)
 
     def read_registers(self, address, count=1):
         register_list = []
         result = self.client.read_holding_registers(
-            address, count, unit=self.unit)
+            address, count, unit=self.device_id)
         for reg_index in range(0, count):
             register_list.append(result.getRegister(reg_index))
         return register_list
@@ -32,9 +33,9 @@ class ModbusDevice(object):
 
     """ Dispositivo compatible con modbus """
 
-    def __init__(self, device):
+    def __init__(self, device_id):
         super(ModbusDevice, self).__init__()
-        self.modbusclient = ModbusClient(device=device)
+        self.modbusclient = ModbusClient(device_id=device_id)
 
     def _to_hex(self, integer):
         """ Pasa un entero a hexadecimal """
