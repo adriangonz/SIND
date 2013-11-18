@@ -1,5 +1,5 @@
 #!/usr/local/bin/python
-
+import random
 from pymodbus.client.sync import ModbusSerialClient
 from datetime import datetime
 
@@ -32,9 +32,42 @@ class ModbusClient(object):
         return registers
 
 
-class ModbusDevice(object):
+class ModbusDeviceInterface(object):
 
-    """ Dispositivo compatible con ModBus """
+    """ Interfaz generica con el dispositivo ModBus """
+
+    def get_datetime(self):
+        pass
+
+    def set_datetime(self, new_datetime):
+        pass
+
+    def get_data(self):
+        pass
+
+
+class ModbusMockDevice(object):
+
+    """ Dispositivo ModBus "dummy" """
+
+    def get_datetime(self):
+        return datetime.now()
+
+    def get_data(self):
+        return {
+            'V': random.uniform(220.0, 240.0),
+            'I': random.uniform(1500.0, 1800.0),
+            'PAct': random.uniform(180000.0, 200000.0),
+            'PReact': random.uniform(0.0, 1.0),
+            'FactorPotencia': random.uniform(0.1, 1.0),
+            'Frec': random.uniform(45.0, 50.0),
+            'PAparente': random.uniform(300000.0, 320000.0)
+        }
+
+
+class ModbusDevice(ModbusDeviceInterface):
+
+    """ Dispositivo real compatible con ModBus """
 
     def __init__(self, device_id):
         super(ModbusDevice, self).__init__()
@@ -82,7 +115,3 @@ class ModbusDevice(object):
             'Frec': self.modbus_client.read_registers(9) / 100.0,
             'PAparente': self._read_high_low(11) / 100.0
         }
-
-if __name__ == '__main__':
-    prueba = ModbusDevice(25)
-    print prueba.get_data()
