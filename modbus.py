@@ -50,6 +50,12 @@ class ModbusDevice(object):
     def _join_hex(self, a, b):
         return a * 256 + b
 
+    def _join_high_low(self, hex_list):
+        return hex_list[0] * 65536 + hex_list[1]
+
+    def _read_high_low(self, address):
+        return self._join_high_low(self.modbus_client.read_registers(address, 2))
+
     def get_datetime(self):
         date_registers = self.modbus_client.read_registers(253, 3)
         seconds, minutes = self._split_hex(date_registers[0])
@@ -63,7 +69,17 @@ class ModbusDevice(object):
         monthyear = self._join_hex(new_datetime.month, new_datetime.year % 2000)
         self.modbus_client.write_registers(253, [secmin, hourday, monthyear])
 
+    def get_data(self):
+        return {
+            'V': self.modbus_client.read_registers(2) / 100.0,
+            'I': self._read_high_low(7) / 1000.0,
+            'PAct': self._read_high_low(21) / 100.0,
+            'PReact': self._read_high_low(29) / 100.0,
+            'FactorPotencia': self.modbus_client.read_registers(10) / 1000.0,
+            'Frec': self.modbus_client.read_registers(9) / 100.0,
+            'PAparente': self._read_high_low(11) / 100.0
+        }
+
 if __name__ == '__main__':
     prueba = ModbusDevice(25)
-    prueba.set_datetime(datetime.now())
-    print prueba.get_datetime()
+    print prueba.get_data()
