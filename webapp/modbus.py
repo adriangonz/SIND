@@ -34,7 +34,7 @@ class ModbusClient(object):
 
 class ModbusDevice(object):
 
-    """ Dispositivo compatible con modbus """
+    """ Dispositivo compatible con ModBus """
 
     def __init__(self, device_id):
         super(ModbusDevice, self).__init__()
