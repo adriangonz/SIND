@@ -21,12 +21,15 @@ class ModbusClient(object):
         self.client.write_registers(address, data, unit=self.device_id)
 
     def read_registers(self, address, count=1):
-        register_list = []
         result = self.client.read_holding_registers(
             address, count, unit=self.device_id)
-        for reg_index in range(0, count):
-            register_list.append(result.getRegister(reg_index))
-        return register_list
+        if count == 1:
+            registers = result.getRegister(0)
+        else:
+            registers = []
+            for reg_index in range(0, count):
+                registers.append(result.getRegister(reg_index))
+        return registers
 
 
 class ModbusDevice(object):
