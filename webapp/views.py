@@ -8,3 +8,7 @@ def index(request):
         'message': 'Some message'
     }
     return render(request, 'webapp/index.html', template_value)
+
+
+def chart_test(request):
+    return render(request, 'webapp/chart.html')
