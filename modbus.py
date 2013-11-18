@@ -1,7 +1,7 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 
 from pymodbus.client.sync import ModbusSerialClient
-
+from datetime import datetime
 
 class ModbusClient(object):
 
@@ -46,8 +46,14 @@ class ModbusDevice(object):
     def _split_hex(self, integer):
         return integer / 256, integer % 256
 
+    def get_date(self):
+        date_registers = self.modbusclient.read_registers(253, 3)
+        seconds, minutes = self._split_hex(date_registers[0])
+        hour, day = self._split_hex(date_registers[1])
+        month, year = self._split_hex(date_registers[2])
+        return datetime(year + 2000, month, day, hour, minutes, seconds)
+
+
 if __name__ == '__main__':
     prueba = ModbusDevice(25)
-    assert prueba._to_int('0x0B0D') == 2829
-    assert prueba._to_hex(2829) == '0x0B0D'
-    print prueba._split_hex(2829)
+    print prueba.get_date()
