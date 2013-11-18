@@ -35,7 +35,7 @@ class ModbusDevice(object):
 
     def __init__(self, device_id):
         super(ModbusDevice, self).__init__()
-        self.modbusclient = ModbusClient(device_id=device_id)
+        self.modbus_client = ModbusClient(device_id=device_id)
 
     def _to_hex(self, integer):
         """ Pasa un entero a hexadecimal """
@@ -47,14 +47,23 @@ class ModbusDevice(object):
     def _split_hex(self, integer):
         return integer / 256, integer % 256
 
-    def get_date(self):
-        date_registers = self.modbusclient.read_registers(253, 3)
+    def _join_hex(self, a, b):
+        return a * 256 + b
+
+    def get_datetime(self):
+        date_registers = self.modbus_client.read_registers(253, 3)
         seconds, minutes = self._split_hex(date_registers[0])
         hour, day = self._split_hex(date_registers[1])
         month, year = self._split_hex(date_registers[2])
         return datetime(year + 2000, month, day, hour, minutes, seconds)
 
+    def set_datetime(self, new_datetime):
+        secmin = self._join_hex(new_datetime.second, new_datetime.minute)
+        hourday = self._join_hex(new_datetime.hour, new_datetime.day)
+        monthyear = self._join_hex(new_datetime.month, new_datetime.year % 2000)
+        self.modbus_client.write_registers(253, [secmin, hourday, monthyear])
 
 if __name__ == '__main__':
     prueba = ModbusDevice(25)
-    print prueba.get_date()
+    prueba.set_datetime(datetime.now())
+    print prueba.get_datetime()
