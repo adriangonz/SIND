@@ -1,8 +1,11 @@
 <html>
     <head>
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
         <title>Pruebas graficas</title>
         <script>
-            [
+            /*[
                 {
                     'time': '2013-10-22T04:19:10.344512',
                     'PAct': 184156.16, 
@@ -23,10 +26,202 @@
                     'Frec': 45.0, 
                     'V': 230.33
                 }
-            ];
+            ];*/
+    $(function () {
+ var chart;
+ $(document).ready(function() {
+ chart = new Highcharts.Chart({
+ chart: {
+ renderTo: 'container'
+ },
+ title: {
+ text: 'Combination chart'
+ },
+ xAxis: {
+ categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+ },
+ tooltip: {
+ formatter: function() {
+ var s;
+ if (this.point.name) { // the pie chart
+ s = ''+
+ this.point.name +': '+ this.y +' fruits';
+ } else {
+ s = ''+
+ this.x +': '+ this.y;
+ }
+ return s;
+ }
+ },
+ labels: {
+ items: [{
+ html: 'Total fruit consumption',
+ style: {
+ left: '40px',
+ top: '8px',
+ color: 'black'
+ }
+ }]
+ },
+ series: [{
+ type: 'column',
+ name: 'Jane',
+ data: [3, 2, 1, 3, 4]
+ }, {
+ type: 'column',
+ name: 'John',
+ data: [2, 3, 5, 7, 6]
+ }, {
+ type: 'column',
+ name: 'Joe',
+ data: [4, 3, 3, 9, 0]
+ }, {
+ type: 'spline',
+ name: 'Average',
+ data: [3, 2.67, 3, 6.33, 3.33],
+ marker: {
+ lineWidth: 2,
+ lineColor: Highcharts.getOptions().colors[3],
+ fillColor: 'white'
+ }
+ }, {
+ type: 'pie',
+ name: 'Total consumption',
+ data: [{
+ name: 'Jane',
+ y: 13,
+ color: '#4572A7' // Jane's color
+ }, {
+ name: 'John',
+ y: 23,
+ color: '#AA4643' // John's color
+ }, {
+ name: 'Joe',
+ y: 19,
+ color: '#89A54E' // Joe's color
+ }],
+ center: [100, 80],
+ size: 100,
+ showInLegend: false,
+ dataLabels: {
+ enabled: false
+ }
+ }]
+ });
+ });
+});
         </script>
     </head>
     <body>
         <h1>Pruebas con graficas</h1>
+        
+        <div id="container" style="min-width: 400px; height: 400px; margin: 0 auto"></div>
+        <script>
+            /*[
+                {
+                    'time': '2013-10-22T04:19:10.344512',
+                    'PAct': 184156.16, 
+                    'FactorPotencia': 1.0, 
+                    'PReact': 0.0, 
+                    'I': 1703.936, 
+                    'PAparente': 304087.04, 
+                    'Frec': 50.0, 
+                    'V': 232.33
+                },
+                {
+                    'time': '2013-10-22T05:19:10.344512',
+                    'PAct': 204156.16, 
+                    'FactorPotencia': 0.5, 
+                    'PReact': 0.0, 
+                    'I': 1503.936, 
+                    'PAparente': 324087.04, 
+                    'Frec': 45.0, 
+                    'V': 230.33
+                }
+            ];*/
+    $(function () {
+ var chart;
+ $(document).ready(function() {
+ chart = new Highcharts.Chart({
+ chart: {
+ renderTo: 'container'
+ },
+ title: {
+ text: 'Combination chart'
+ },
+ xAxis: {
+ categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
+ },
+ tooltip: {
+ formatter: function() {
+ var s;
+ if (this.point.name) { // the pie chart
+ s = ''+
+ this.point.name +': '+ this.y +' fruits';
+ } else {
+ s = ''+
+ this.x +': '+ this.y;
+ }
+ return s;
+ }
+ },
+ labels: {
+ items: [{
+ html: 'Total fruit consumption',
+ style: {
+ left: '40px',
+ top: '8px',
+ color: 'black'
+ }
+ }]
+ },
+ series: [{
+ type: 'column',
+ name: 'Jane',
+ data: [3, 2, 1, 3, 4]
+ }, {
+ type: 'column',
+ name: 'John',
+ data: [2, 3, 5, 7, 6]
+ }, {
+ type: 'column',
+ name: 'Joe',
+ data: [4, 3, 3, 9, 0]
+ }, {
+ type: 'spline',
+ name: 'Average',
+ data: [3, 2.67, 3, 6.33, 3.33],
+ marker: {
+ lineWidth: 2,
+ lineColor: Highcharts.getOptions().colors[3],
+ fillColor: 'white'
+ }
+ }, {
+ type: 'pie',
+ name: 'Total consumption',
+ data: [{
+ name: 'Jane',
+ y: 13,
+ color: '#4572A7' // Jane's color
+ }, {
+ name: 'John',
+ y: 23,
+ color: '#AA4643' // John's color
+ }, {
+ name: 'Joe',
+ y: 19,
+ color: '#89A54E' // Joe's color
+ }],
+ center: [100, 80],
+ size: 100,
+ showInLegend: false,
+ dataLabels: {
+ enabled: false
+ }
+ }]
+ });
+ });
+});
+        </script>
     </body>
 </html>
