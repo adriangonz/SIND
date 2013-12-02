@@ -1,5 +1,4 @@
-
-
+{% load staticfiles %}
 
 <html>
     <head>
@@ -10,9 +9,9 @@
         <meta name="Distribution" content="Global" />
         <title>Sistemas Industriales</title>
 
-        <script type="text/javascript" src="../../static/webapp/js/cambiarFecha.js"></script>
-        <link rel="stylesheet" href="../../static/webapp/css/bootstrap.min.css">
-        <link rel="stylesheet" href="../../static/webapp/css/Style.css">
+        <script type="text/javascript" src="{% static "webapp/js/cambiarFecha.js" %}"></script>
+        <link rel="stylesheet" href="{% static "webapp/css/bootstrap.min.css" %}">
+        <link rel="stylesheet" href="{% static "webapp/css/Style.css" %}">
 
         
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>

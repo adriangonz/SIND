@@ -11,4 +11,4 @@ def index(request):
 
 
 def chart_test(request):
-    return render(request, 'webapp/chart.html')
+    return render(request, 'webapp/chart.html', {})
