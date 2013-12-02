@@ -1,0 +1,42 @@
+/* 
+    Document   : Style
+    Created on : 01-dic-2013, 16:30:39
+    Author     : Musi
+    Description:
+        Purpose of the stylesheet follows.
+*/
+
+root { 
+    display: block;
+}
+
+#base{
+    margin: auto;
+    width: 100%;
+    min-width: 1250px;
+    position: absolute;
+   
+}
+
+#container{
+    width: 1250px;
+    min-width: 1250px;
+    height: 100%;
+    margin: auto;
+    background-color: white;
+}
+
+#date{
+    margin-left: 25px;
+    margin-bottom: 10px;
+}
+
+
+.chart{
+    width: 400px;
+    height: 300px;
+    margin: 5px 5px 5px 5px;
+    padding: 5px 5px 5px 5px;
+    border: 1px black dotted;
+}
+

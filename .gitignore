@@ -34,3 +34,5 @@ nosetests.xml
 .mr.developer.cfg
 .project
 .pydevproject
+/webapp/static/webapp/js/exporting-server/java/highcharts-export/highcharts-export-convert/target/
+/webapp/static/webapp/js/exporting-server/java/highcharts-export/highcharts-export-web/target/

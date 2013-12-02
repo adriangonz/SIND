@@ -1,9 +1,22 @@
-{% load staticfiles %}
+
+
 
 <html>
     <head>
-        <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <title>{{ title }}</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+        <meta name="Author" content="Cristina Barros, Adrián Gonzalez, Óscar" />
+        <meta name="Language" content="es" />
+        <meta name="Revisit" content="30 days" />
+        <meta name="Distribution" content="Global" />
+        <title>Sistemas Industriales</title>
+
+        <script type="text/javascript" src="../../static/webapp/js/cambiarFecha.js"></script>
+        <link rel="stylesheet" href="../../static/webapp/css/bootstrap.min.css">
+        <link rel="stylesheet" href="../../static/webapp/css/Style.css">
+
+        
+        <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        
         <script>
             [
                 {
@@ -30,7 +43,49 @@
         </script>
     </head>
     <body>
-        <h1>{{ title }}</h1>
-        <p>{{ message }}</p>
+        <div id="base">
+            <div id="container">
+               <!-- Docs master nav -->
+                <header class="navbar navbar-inverse  bs-docs-nav" role="banner">
+              <div class="container">
+                  
+                <p class="navbar-brand">Cambiar fecha del aparato</p>
+                <form class="navbar-form navbar-left form-inline" action="javascript:cambiarFecha()" onsubmit="return comprobFecha(this)">
+                    <div class="form-group ">
+                        <input id="tbDate" type="text" class="form-control" placeholder="dd/MM/YYYY hh:mm:ss">  
+                    </div>
+                    
+                    <button type="submit" class="btn btn-default">Cambiar</button>
+                    
+                </form>
+                <p class="navbar-text red" id="errDate"></p>
+              </div>
+            </header>
+                <div id="content">
+                    <div id="date" class="h3">Fecha actual: </div>
+                    <div id="VChart" class="chart pull-left">
+                        <p>V</p>
+                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                    </div>
+                    <div id="IChart" class="chart pull-left">
+                        <p>I</p>
+                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                    </div>
+                    <div id="PactChart" class="chart pull-left">
+                        <p>P activa , P reactiva , P aparente</p>
+                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                    </div>
+                    <div id="FPChart" class="chart pull-left">
+                        <p>Factor Potencia</p>
+                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail"></div>
+                    <div id="FChart" class="chart pull-left">
+                        <p>Frecuencia</p>
+                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                    </div>
+                  
+                </div>
+                <div id="foot"></div>
+            </div> 
+        </div>
     </body>
 </html>
