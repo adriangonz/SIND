@@ -46,12 +46,18 @@ class ModbusDeviceInterface(object):
         pass
 
 
-class ModbusMockDevice(object):
+class ModbusMockDevice(ModbusDeviceInterface):
 
     """ Dispositivo ModBus "dummy" """
+    def __init__(self):
+        self.datetime = datetime.now()
 
     def get_datetime(self):
-        return datetime.now()
+        return self.datetime
+
+    def set_datetime(self, new_datetime):
+        self.datetime = new_datetime
+        return self.datetime
 
     def get_data(self):
         return {
@@ -104,6 +110,7 @@ class ModbusDevice(ModbusDeviceInterface):
         hourday = self._join_hex(new_datetime.hour, new_datetime.day)
         monthyear = self._join_hex(new_datetime.month, new_datetime.year % 2000)
         self.modbus_client.write_registers(253, [secmin, hourday, monthyear])
+        return True
 
     def get_data(self):
         return {
