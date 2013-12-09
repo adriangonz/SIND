@@ -61,7 +61,7 @@ class ModbusMockDevice(ModbusDeviceInterface):
 
     def get_data(self):
         return {
-            'Fecha': self.get_datetime().isoformat(),
+            'Fecha': self.get_datetime(),
             'V': random.uniform(220.0, 240.0),
             'I': random.uniform(1500.0, 1800.0),
             'PAct': random.uniform(180000.0, 200000.0),

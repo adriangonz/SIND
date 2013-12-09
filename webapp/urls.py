@@ -1,10 +1,8 @@
 from django.conf.urls import patterns, include, url
 from django.contrib import admin
-import django_cron
 import views
 import api
 
-django_cron.autodiscover()
 admin.autodiscover()
 
 urlpatterns = patterns('',
