@@ -19,7 +19,7 @@ root {
 }
 
 #container{
-    width: 1250px;
+    width: 1300px;
     min-width: 1250px;
     height: 100%;
     margin: auto;
@@ -33,9 +33,9 @@ root {
 
 
 .chart{
-    width: 400px;
-    height: 300px;
-    margin: 5px 5px 5px 5px;
+    width: 425px;
+    height: 350px;
+    margin: 5px 2px 2px 5px;
     padding: 5px 5px 5px 5px;
     border: 1px black dotted;
 }

@@ -15,6 +15,13 @@
 
         
         <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+        <script src="http://code.highcharts.com/stock/highstock.js"></script>
+
+        
+        <script src="http://code.highcharts.com/highcharts.js"></script>
+        <script src="http://code.highcharts.com/modules/exporting.js"></script>
+        <script src="{% static "webapp/js/grafica.js" %}" type="text/javascript"></script>
+        
         
         <script>
             [
@@ -58,28 +65,30 @@
                     
                 </form>
                 <p class="navbar-text red" id="errDate"></p>
+                <button type="button" onclick="prueba()" class="btn btn-default">Cambiar</button>
               </div>
             </header>
                 <div id="content">
                     <div id="date" class="h3">Fecha actual: </div>
                     <div id="VChart" class="chart pull-left">
-                        <p>V</p>
-                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                        
+                        <div id="contV" style="min-width: 400px; height: 300px; margin: 0 auto"></div>
                     </div>
                     <div id="IChart" class="chart pull-left">
-                        <p>I</p>
-                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                        
+                        <div id="contI" style="width: 400px; height: 300px; margin: 0 auto"></div>
                     </div>
                     <div id="PactChart" class="chart pull-left">
-                        <p>P activa , P reactiva , P aparente</p>
-                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                        
+                        <div id="contP" style="width: 400px; height: 300px; margin: 0 auto"></div>
                     </div>
                     <div id="FPChart" class="chart pull-left">
-                        <p>Factor Potencia</p>
-                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail"></div>
+                        
+                        <div id="contFP" style="width: 400px; height: 300px; margin: 0 auto"></div>
+                    </div>
                     <div id="FChart" class="chart pull-left">
-                        <p>Frecuencia</p>
-                        <img src="../../static/webapp/images/linechart_symbols.png" alt="Imagen de grafica" class="img-thumbnail">
+                      
+                       <div id="contF" style="width: 400px; height: 300px; margin: 0 auto"></div>
                     </div>
                   
                 </div>

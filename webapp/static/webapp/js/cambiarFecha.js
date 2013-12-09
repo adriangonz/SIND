@@ -31,9 +31,45 @@ function comprobFecha(obj)
 }
 
 
-function cambiarFecha(obj)
+function cambiarFecha()
 {
-    alert("Fecha modificada");
+   
+   var fechaS = $("#tbDate").val();
+   var fecha = crearDate(fechaS);
+   var fechaIso = fecha.toISOString();
+   
+   $.ajax({
+        method: "get",
+        url: "/api/date",
+        dataType:"json",
+        data:{
+            date: fechaIso
+        },
+        success: function(res){
+            alert("Fecha modificada");
+            location.reload();
+        }
+        
+    });
+    
+    
+}
+
+function crearDate(cad)
+{
+    var text = cad.split(" ");
+    var fecha = text[0].split("/");
+    var hora = text[1].split(":");
+    var Dia = fecha[0]; 
+    var Mes = fecha[1]; 
+    var Ano = fecha[2];
+    var hor = hora[0];
+    var min = hora[1];
+    var seg = hora[2];
+
+    var fechaReal = new Date(Ano,Mes-1,Dia,hor,min,seg);
+    
+    return fechaReal;
 }
 
 function estaVacio(n)

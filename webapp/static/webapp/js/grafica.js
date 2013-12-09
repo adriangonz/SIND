@@ -3,14 +3,28 @@
  * and open the template in the editor.
  */
 
+var chartP;
+var fecha;
+
 $(function () {
-        $('#container1').highcharts({
+    
+    Highcharts.setOptions({
+		global : {
+			useUTC : false
+		}
+	});
+    
+        chartP = new Highcharts.Chart({
+                chart: {
+                    renderTo: 'contP',
+                    defaultSeriesType: 'line'
+                },
             title: {
-                text: 'Potencia Actual',
+                text: 'Potencia activa , Pot. reactiva , Pot. aparente',
                 x: -20 //center
             },
             subtitle: {
-                text: 'Actualización online',
+                text: 'Actualizacion online',
                 x: -20
             },
             xAxis: {
@@ -37,144 +51,106 @@ $(function () {
                 borderWidth: 0
             },
             series: [{
-                name: 'Potencia Actual',
+                name: 'P Activa',
                 data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
                 color: '#0000FF'
+            },{
+                name: 'P Reactiva',
+                data: [3.4, 5.9, 7.0, 1.5, 2.2, 5.5, 10.2, 12.5, 7.3, 6.3, 0.9, 2.6],
+                color: '#00FD00'
+            },{
+                name: 'P Aparente',
+                data: [20.0, 21.9, 22.5, 30.5, 12.2, 5.5, 3.2, 6.5, 10.3, 12.3, 11.9, 15.6],
+                color: '#FF0000'
             }]
         });
     });
     
+    //Factor de Potencia
+    
     $(function () {
-        $('#container2').highcharts({
+        $('#contFP').highcharts('StockChart',{
             title: {
                 text: 'Factor de Potencia',
                 x: -20 //center
             },
             subtitle: {
-                text: 'Actualización online',
+                text: 'Actualizacion online',
                 x: -20
             },
-            xAxis: {
-                categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6',
-                    'time7', 'time8', 'time9', 'time10', 'time11', 'time12']
-            },
-            yAxis: {
-                title: {
-                    text: 'Total'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ' W'
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            series: [{
-                name: 'Factor de Potencia',
-                data: [-0.2, 0.8, 5.7, 11.3, 17.0, 22.0, 24.8, 24.1, 20.1, 14.1, 8.6, 2.5],
-                color: '#00FFFF'
-            }]
+            chart : {
+			events : {
+				load : function() {
+
+                                        prueba();
+                                    // set up the updating of the chart each second
+					var series = this.series[0];
+					setInterval(function() {     
+						var x = fecha.getTime(), // current time
+						y = Math.round(Math.random() * 100);
+						series.addPoint([x, y], true, true);
+					}, 1000);
+				}
+			}
+		},
+		rangeSelector: {
+			buttons: [{
+				count: 1,
+				type: 'minute',
+				text: '1M'
+			}, {
+				count: 5,
+				type: 'minute',
+				text: '5M'
+			}, {
+				type: 'all',
+				text: 'All'
+			}],
+			inputEnabled: false,
+			selected: 0
+		},
+		
+		
+		exporting: {
+			enabled: false
+		},
+		
+		
+		
+		series : [{
+			name : 'Factor Potencia',
+			data : (function() {
+				// generate an array of random data
+				var data = [], time = (new Date()).getTime(), i;
+
+				for( i = -999; i <= 0; i++) {
+					data.push([
+						time + i * 1000,
+						Math.round(Math.random() * 100)
+					]);
+				}
+                                
+                          
+                                
+				return data;
+			})()
+		}]
+            
         });
     });
     
-    $(function () {
-        $('#container3').highcharts({
-            title: {
-                text: 'Potencia Reactiva',
-                x: -20 //center
-            },
-            subtitle: {
-                text: 'Actualización online',
-                x: -20
-            },
-            xAxis: {
-                categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6',
-                    'time7', 'time8', 'time9', 'time10', 'time11', 'time12']
-            },
-            yAxis: {
-                title: {
-                    text: 'Total'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ' W'
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            series: [{
-                name: 'Potencia Reactiva',
-                data: [-0.9, 0.6, 3.5, 8.4, 13.5, 17.0, 18.6, 17.9, 14.3, 9.0, 3.9, 1.0],
-                color: '#00FF00'
-            }]
-        });
-    });
+  
+    
+    
     
     $(function () {
-        $('#container4').highcharts({
-            title: {
-                text: 'Potencia Aparente',
-                x: -20 //center
-            },
-            subtitle: {
-                text: 'Actualización online',
-                x: -20
-            },
-            xAxis: {
-                categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6',
-                    'time7', 'time8', 'time9', 'time10', 'time11', 'time12']
-            },
-            yAxis: {
-                title: {
-                    text: 'Total'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                valueSuffix: ' W'
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'middle',
-                borderWidth: 0
-            },
-            series: [{
-                name: 'Potencia Aparente',
-                data: [3.9, 4.2, 5.7, 8.5, 11.9, 15.2, 17.0, 16.6, 14.2, 10.3, 6.6, 4.8],
-                color: '#FFFF00'
-            }]
-        });
-    });
-    
-    $(function () {
-        $('#container5').highcharts({
+        $('#contF').highcharts({
             title: {
                 text: 'Frecuencia',
                 x: -20 //center
             },
             subtitle: {
-                text: 'Actualización online',
+                text: 'Actualizacion online',
                 x: -20
             },
             xAxis: {
@@ -209,13 +185,13 @@ $(function () {
     });
     
     $(function () {
-        $('#container6').highcharts({
+        $('#contV').highcharts({
             title: {
                 text: 'Voltaje',
                 x: -20 //center
             },
             subtitle: {
-                text: 'Actualización online',
+                text: 'Actualizacion online',
                 x: -20
             },
             xAxis: {
@@ -250,13 +226,13 @@ $(function () {
     });
     
     $(function () {
-        $('#container7').highcharts({
+        $('#contI').highcharts({
             title: {
                 text: 'Intensidad',
                 x: -20 //center
             },
             subtitle: {
-                text: 'Actualización online',
+                text: 'Actualizacion online',
                 x: -20
             },
             xAxis: {
@@ -290,86 +266,19 @@ $(function () {
         });
     });
 
-/*$(function () {
-    var chart;
-    $(document).ready(function() {
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container'
-            },
-            title: {
-                text: 'Medidas'
-            },
-            xAxis: {
-                categories: ['Apples', 'Oranges', 'Pears', 'Bananas', 'Plums']
-            },
-            tooltip: {
-                formatter: function() {
-                    var s;
-                    if (this.point.name) { // the pie chart
-                        s = ''+
-                        this.point.name +': '+ this.y +' fruits';
-                    } else {
-                         s = ''+
-                        this.x +': '+ this.y;
-                    }
-                    return s;
-                }
-            },
-            labels: {
-                items: [{
-                    html: 'Total medidas',
-                    style: {
-                        left: '40px',
-                        top: '8px',
-                        color: 'black'
-                    }
-                }]
-            },
-            series: [{
-                type: 'column',
-                name: 'Jane',
-                data: [3, 2, 1, 3, 4]
-            }, {
-                type: 'column',
-                name: 'John',
-                data: [2, 3, 5, 7, 6]
-            }, {
-                type: 'column',
-                name: 'Joe',
-                data: [4, 3, 3, 9, 0]
-            }, {
-                type: 'spline',
-                name: 'Average',
-                data: [3, 2.67, 3, 6.33, 3.33],
-                marker: {
-                    lineWidth: 2,
-                    lineColor: Highcharts.getOptions().colors[3],
-                    fillColor: 'white'
-                }
-            }, {
-                type: 'pie',
-                name: 'Total consumption',
-                data: [{
-                    name: 'Jane',
-                    y: 13,
-                    color: '#4572A7' // Jane's color
-                }, {
-                    name: 'John',
-                    y: 23,
-                    color: '#AA4643' // John's color
-                }, {
-                    name: 'Joe',
-                    y: 19,
-                    color: '#89A54E' // Joe's color
-                }],
-                center: [100, 80],
-                size: 100,
-                showInLegend: false,
-                dataLabels: {
-                    enabled: false
-                }
-            }]
-        });
+
+function prueba()
+{
+    
+  $.ajax({
+        method: "get",
+        url: "/api/date",
+        dataType:"json",
+        success: function(res){
+            fecha = new Date(res.date);
+            
+        }
+        
     });
-});*/
+   
+}
