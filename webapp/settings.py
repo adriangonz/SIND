@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#encoding:utf-8
 """
 Django settings for webapp project.
 
