@@ -30,7 +30,15 @@ class DateController(View):
         return HttpResponse(self._json(date), status=200)
 
 
+class InfoController(View):
+    """ Simple controller for managing date """
+
+    def get(self, request):
+        return HttpResponse(json.dumps(modbusDevice.get_data()))
+
+
 urls = patterns(
     '',
-    url(r'^date', DateController.as_view())
+    url(r'^date', DateController.as_view()),
+    url(r'^info', InfoController.as_view())
 )
