@@ -4,7 +4,9 @@ import dateutil.parser
 from django.http import HttpResponse
 from django.conf.urls import patterns, url
 from django.views.generic import View
+from django.core import serializers
 from modbus import ModbusMockDevice
+from models import ModbusData
 
 modbusDevice = ModbusMockDevice()
 
@@ -30,7 +32,16 @@ class DateController(View):
         return HttpResponse(self._json(date), status=200)
 
 
+class InfoController(View):
+    """ Simple controller for managing date """
+
+    def get(self, request):
+        return HttpResponse(
+            serializers.serialize('json', ModbusData.get_last()))
+
+
 urls = patterns(
     '',
-    url(r'^date', DateController.as_view())
+    url(r'^date', DateController.as_view()),
+    url(r'^info', InfoController.as_view())
 )

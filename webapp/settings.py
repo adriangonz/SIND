@@ -1,5 +1,4 @@
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
+#encoding:utf-8
 """
 Django settings for webapp project.
 
@@ -39,6 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_cron',
     'webapp'
 )
 
@@ -51,10 +51,13 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
 
+CRON_CLASSES = [
+    "webapp.cron.ReloadInfo",
+]
+
 ROOT_URLCONF = 'webapp.urls'
 
 WSGI_APPLICATION = 'webapp.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.6/ref/settings/#databases
@@ -69,7 +72,9 @@ DATABASES = {
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-ES'
+
+TIME_ZONE = 'Europa/Madrid'
 
 TIME_ZONE = 'UTC'
 
@@ -77,7 +82,7 @@ USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
