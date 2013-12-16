@@ -44,7 +44,15 @@
               </div>
             </header>
                 <div id="content">
-                    <div id="date" class="h3">Fecha actual: </div>
+                    <div id="date" class="h3">Fecha actual: 
+                        <script>
+                            fecha = new Date(_datetime);
+                            
+                            document.write(fecha.toString());	
+					
+                            
+                        </script>
+                    </div>
                     <div id="VChart" class="chart pull-left">
                         
                         <div id="contV" style="min-width: 400px; height: 300px; margin: 0 auto"></div>

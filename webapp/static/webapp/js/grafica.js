@@ -2,25 +2,30 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
+ 
+ var date = [];
+ 
+ 
+ $(function(){
+ for( i = 0; i < _data.length; i++) {
+        var fech = new Date((_data[i]).fields.Fecha);
+            date.push([
 
-var chartP;
-var fecha;
+                    fech.getHours()+":"+fech.getMinutes()+":"+fech.getSeconds()
+            ]);
+    }
 
-$(function () {
+ });
     
-    Highcharts.setOptions({
-		global : {
-			useUTC : false
-		}
-	});
-    
-        chartP = new Highcharts.Chart({
-                chart: {
-                    renderTo: 'contP',
-                    defaultSeriesType: 'line'
-                },
+   $(function () { 
+  
+
+console.log(date);
+      
+       
+        $('#contP').highcharts({
             title: {
-                text: 'Potencia activa , Pot. reactiva , Pot. aparente',
+                text: 'Potencia',
                 x: -20 //center
             },
             subtitle: {
@@ -28,8 +33,7 @@ $(function () {
                 x: -20
             },
             xAxis: {
-                categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6',
-                    'time7', 'time8', 'time9', 'time10', 'time11', 'time12']
+                categories: date
             },
             yAxis: {
                 title: {
@@ -42,7 +46,7 @@ $(function () {
                 }]
             },
             tooltip: {
-                valueSuffix: ' W'
+                valueSuffix: ' Hz'
             },
             legend: {
                 layout: 'vertical',
@@ -52,15 +56,57 @@ $(function () {
             },
             series: [{
                 name: 'P Activa',
-                data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6],
+                data: (function() {
+				// generate an array of random data
+				var data = [];
+
+				for( i = 0; i < _data.length; i++) {
+					data.push([
+						
+						(_data[i]).fields.PAct
+					]);
+				}
+                                
+                          
+                                
+				return data;
+			})(),
                 color: '#0000FF'
             },{
                 name: 'P Reactiva',
-                data: [3.4, 5.9, 7.0, 1.5, 2.2, 5.5, 10.2, 12.5, 7.3, 6.3, 0.9, 2.6],
+                data: (function() {
+				// generate an array of random data
+				var data = [];
+
+				for( i = 0; i < _data.length; i++) {
+					data.push([
+						
+						(_data[i]).fields.PReact
+					]);
+				}
+                                
+                          
+                                
+				return data;
+			})(),
                 color: '#00FD00'
             },{
                 name: 'P Aparente',
-                data: [20.0, 21.9, 22.5, 30.5, 12.2, 5.5, 3.2, 6.5, 10.3, 12.3, 11.9, 15.6],
+                data: (function() {
+				// generate an array of random data
+				var data = [];
+
+				for( i = 0; i < _data.length; i++) {
+					data.push([
+						
+						(_data[i]).fields.PAparente
+					]);
+				}
+                                
+                          
+                                
+				return data;
+			})(),
                 color: '#FF0000'
             }]
         });
@@ -69,51 +115,37 @@ $(function () {
     //Factor de Potencia
     
     $(function () {
-        $('#contFP').highcharts('StockChart',{
+        $('#contFP').highcharts({
             title: {
-                text: 'Factor de Potencia',
+                text: 'Factor Potencia',
                 x: -20 //center
             },
             subtitle: {
                 text: 'Actualizacion online',
                 x: -20
             },
-            chart : {
-			events : {
-				load : function() {
-
-                                        prueba();
-                                    // set up the updating of the chart each second
-					var series = this.series[0];
-					setInterval(function() {     
-						var x = fecha.getTime(), // current time
-						y = Math.round(Math.random() * 100);
-						series.addPoint([x, y], true, true);
-					}, 1000);
-				}
-			}
-		},
-		rangeSelector: {
-			buttons: [{
-				count: 1,
-				type: 'minute',
-				text: '1M'
-			}, {
-				count: 5,
-				type: 'minute',
-				text: '5M'
-			}, {
-				type: 'all',
-				text: 'All'
-			}],
-			inputEnabled: false,
-			selected: 0
-		},
-		
-		
-		exporting: {
-			enabled: false
-		},
+            xAxis: {
+                categories: date
+            },
+            yAxis: {
+                title: {
+                    text: 'Total'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                valueSuffix: ' Hz'
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'middle',
+                borderWidth: 0
+            },
 		
 		
 		
@@ -121,12 +153,12 @@ $(function () {
 			name : 'Factor Potencia',
 			data : (function() {
 				// generate an array of random data
-				var data = [], time = (new Date()).getTime(), i;
+				var data = [];
 
-				for( i = -999; i <= 0; i++) {
+				for( i = 0; i < _data.length; i++) {
 					data.push([
-						time + i * 1000,
-						Math.round(Math.random() * 100)
+						
+						(_data[i]).fields.FactorPotencia
 					]);
 				}
                                 
@@ -154,8 +186,7 @@ $(function () {
                 x: -20
             },
             xAxis: {
-                categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6',
-                    'time7', 'time8', 'time9', 'time10', 'time11', 'time12']
+                categories: date
             },
             yAxis: {
                 title: {
@@ -178,7 +209,21 @@ $(function () {
             },
             series: [{
                 name: 'Frecuencia',
-                data: [51133.7, 1361.8, 32.5, 126.7, 21651.9, 61165.2, 1318946.4, 551.9, 11214.2, 1013.3, 676.6, 41.8],
+                data: (function() {
+				// generate an array of random data
+				var data = [];
+
+				for( i = 0; i < _data.length; i++) {
+					data.push([
+						
+						(_data[i]).fields.Frec
+					]);
+				}
+                                
+                          
+                                
+				return data;
+			})(),
                 color: '#FF0000'
             }]
         });
@@ -195,8 +240,7 @@ $(function () {
                 x: -20
             },
             xAxis: {
-                categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6',
-                    'time7', 'time8', 'time9', 'time10', 'time11', 'time12']
+                categories: date
             },
             yAxis: {
                 title: {
@@ -219,7 +263,21 @@ $(function () {
             },
             series: [{
                 name: 'Voltaje',
-                data: [43.9, 74.2, 55.7, 38.5, 111.9, 215.2, 167.0, 146.6, 134.2, 11.3, 64.6, 47.8],
+                data: (function() {
+				// generate an array of random data
+				var data = [];
+
+				for( i = 0; i < _data.length; i++) {
+					data.push([
+						
+						(_data[i]).fields.V
+					]);
+				}
+                                
+                          
+                                
+				return data;
+			})(),
                 color: '#0F0F0F'
             }]
         });
@@ -236,8 +294,7 @@ $(function () {
                 x: -20
             },
             xAxis: {
-                categories: ['time1', 'time2', 'time3', 'time4', 'time5', 'time6',
-                    'time7', 'time8', 'time9', 'time10', 'time11', 'time12']
+                categories: date
             },
             yAxis: {
                 title: {
@@ -260,7 +317,21 @@ $(function () {
             },
             series: [{
                 name: 'Intensidad',
-                data: [32.9, 34.2, 54.7, 87.5, 111.9, 75.2, 47.0, 66.6, 44.2, 20.3, 61.6, 14.8],
+                data: (function() {
+				// generate an array of random data
+				var data = [];
+
+				for( i = 0; i < _data.length; i++) {
+					data.push([
+						
+						(_data[i]).fields.I
+					]);
+				}
+                                
+                          
+                                
+				return data;
+			})(),
                 color: '#FF00FF'
             }]
         });
