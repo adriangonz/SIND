@@ -1,10 +1,16 @@
 from django.shortcuts import render
+from django.core import serializers
+from modbus import ModbusMockDevice
+from models import ModbusData
+
+
+modbusDevice = ModbusMockDevice()
 
 
 def index(request):
     template_value = {
-        'title': 'Titulo',
-        'message': 'Some message'
+        'data': serializers.serialize('json', ModbusData.get_last()),
+        'date': modbusDevice.get_datetime().isoformat()
     }
     return render(request, 'webapp/index.html', template_value)
 
