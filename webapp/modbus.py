@@ -44,7 +44,7 @@ class ModbusClient(object):
         return integer / 256, integer % 256
     
     def get_device_datetime(self):
-	date_registers = self.client.read_registers(253, 3)
+	date_registers = self.client.read_holding_registers(253, 3, unit=25)
         seconds, minutes = self._split_hex(date_registers[0])
         hour, day = self._split_hex(date_registers[1])
         month, year = self._split_hex(date_registers[2])
