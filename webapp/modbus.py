@@ -46,13 +46,13 @@ class ModbusClient(object):
 	V = req.getRegister(0) / 100.0
 	# Get I
 	req = self.client.read_holding_registers(7, 2, unit=25)
-	I = int(to_hex(req.getRegister(0)) + (to_hex(req.getRegister(1))[2:]), 16) / 1000.0
+	I = int(self.to_hex(req.getRegister(0)) + (self.to_hex(req.getRegister(1))[2:]), 16) / 1000.0
 	# Get PAct
 	req = self.client.read_holding_registers(21, 2, unit=25)
-	PAct = int(to_hex(req.getRegister(1)) + (to_hex(req.getRegister(0))[2:]), 16) / 100.0
+	PAct = int(self.to_hex(req.getRegister(1)) + (self.to_hex(req.getRegister(0))[2:]), 16) / 100.0
 	# Get PReact
 	req = self.client.read_holding_registers(29, 2, unit=25)
-	PReact = int(to_hex(req.getRegister(1)) + (to_hex(req.getRegister(0))[2:]), 16) / 100.0
+	PReact = int(self.to_hex(req.getRegister(1)) + (self.to_hex(req.getRegister(0))[2:]), 16) / 100.0
 	# Get FactorPotencia
 	req = self.client.read_holding_registers(10, 1, unit=25)
 	FactorPotencia = req.getRegister(0) / 1000.0
@@ -61,7 +61,7 @@ class ModbusClient(object):
 	Frec = req.getRegister(0) / 100.0
 	# Get PAparente
 	req = self.client.read_holding_registers(11, 2, unit=25)
-	PAparente = int(to_hex(req.getRegister(1)) + (to_hex(req.getRegister(0))[2:]), 16) / 100.0
+	PAparente = int(self.to_hex(req.getRegister(1)) + (self.to_hex(req.getRegister(0))[2:]), 16) / 100.0
 	# Return row
 	return [
 		get_device_datetime(self.client).isoformat(),
