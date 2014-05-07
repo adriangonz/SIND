@@ -40,6 +40,19 @@ class ModbusClient(object):
     def to_hex(self,integer):
         return "0x%0.4X" % integer
     
+    def split_hex(self, integer):
+        return integer / 256, integer % 256
+    
+    def get_device_datetime(self,client):
+	req = client.read_holding_registers(253, 3, unit=25)
+	secmin = self.to_hex(req.getRegister(0))
+	hourday = self.to_hex(req.getRegister(1))
+	monthyear = self.to_hex(req.getRegister(2))
+	month, year = self.split_hex(monthyear)
+	hour, day = self.split_hex(hourday)
+	sec, min = self.split_hex(secmin)
+	return datetime(int(year) + 2000, int(month), int(day), int(hour), int(min), int(sec))
+    
     def get_row(self):
 	# Get V
 	req = self.client.read_holding_registers(2, 1, unit=25)
