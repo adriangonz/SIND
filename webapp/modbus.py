@@ -77,7 +77,7 @@ class ModbusClient(object):
 	PAparente = int(self.to_hex(req.getRegister(1)) + (self.to_hex(req.getRegister(0))[2:]), 16) / 100.0
 	# Return row
 	return [
-		get_device_datetime(self.client).isoformat(),
+		self.get_device_datetime(self.client).isoformat(),
 		V,
 		I,
 		PAct,
