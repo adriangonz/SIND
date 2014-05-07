@@ -94,7 +94,7 @@ class ModbusClient(object):
                 #                'PAparente '+str(num)
                 #]
                 #writer.writerow(row)
-		row = get_row()
+		row = self.get_row()
 		writer.writerow(row)
 		print >> sys.stderr,row
                 csvfile.close()
