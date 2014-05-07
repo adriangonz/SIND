@@ -93,10 +93,10 @@ class ModbusClient(object):
                 #                'Frec '+str(num),
                 #                'PAparente '+str(num)
                 #]
-                writer.writerow(row)
+                #writer.writerow(row)
 		row = get_row()
-		#writer.writerow(row)
-		#print >> sys.stderr,row
+		writer.writerow(row)
+		print >> sys.stderr,row
                 csvfile.close()
 	s.enter(1, 1, self.cycle_csv, (s,num+1,))
     
@@ -108,11 +108,13 @@ class ModbusClient(object):
     def get_data(self,s):
         shutil.copyfile('practica_prueba.txt', 'auxiliar.txt')
         filename = 'auxiliar.txt'
-	with open(filename, 'a+') as csvfile:
+	"""
+        with open(filename, 'a+') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
                 print row
             csvfile.close()
+        """
         s.enter(1, 1, self.get_data, (s,))
     
     def getting_data(self):
