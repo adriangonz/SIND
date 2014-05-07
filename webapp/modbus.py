@@ -44,14 +44,11 @@ class ModbusClient(object):
         return integer / 256, integer % 256
     
     def get_device_datetime(self,client):
-	req = client.read_holding_registers(253, 3, unit=25)
-	secmin = self.to_hex(req.getRegister(0))
-	hourday = self.to_hex(req.getRegister(1))
-	monthyear = self.to_hex(req.getRegister(2))
-	month, year = self.split_hex(monthyear)
-	hour, day = self.split_hex(hourday)
-	sec, min = self.split_hex(secmin)
-	return datetime(int(year) + 2000, int(month), int(day), int(hour), int(min), int(sec))
+	date_registers = self.modbus_client.read_registers(253, 3)
+        seconds, minutes = self._split_hex(date_registers[0])
+        hour, day = self._split_hex(date_registers[1])
+        month, year = self._split_hex(date_registers[2])
+        return datetime(year + 2000, month, day, hour, minutes, seconds)
     
     def get_row(self):
 	# Get V
