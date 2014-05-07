@@ -37,7 +37,7 @@ class ModbusClient(object):
                 registers.append(result.getRegister(reg_index))
         return registers
  
-    def to_hex(integer):
+    def to_hex(self,integer):
         return "0x%0.4X" % integer
     
     def get_row(self):
