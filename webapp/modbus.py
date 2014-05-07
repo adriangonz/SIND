@@ -40,7 +40,7 @@ class ModbusClient(object):
     def to_hex(integer):
         return "0x%0.4X" % integer
     
-    def get_row():
+    def get_row(self):
 	# Get V
 	req = self.client.read_holding_registers(2, 1, unit=25)
 	V = req.getRegister(0) / 100.0
