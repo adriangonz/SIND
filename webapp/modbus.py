@@ -1,5 +1,10 @@
 #!/usr/local/bin/python
 import random
+import sys
+import sched, time, csv, os
+import shutil
+import threading
+import os.path 
 from pymodbus.client.sync import ModbusSerialClient
 from datetime import datetime
 
@@ -20,6 +25,7 @@ class ModbusClient(object):
         """ Escribe una serie de registros en el dispositivo """
         self.client.write_registers(address, data, unit=self.device_id)
 
+
     def read_registers(self, address, count=1):
         result = self.client.read_holding_registers(
             address, count, unit=self.device_id)
@@ -30,7 +36,92 @@ class ModbusClient(object):
             for reg_index in range(0, count):
                 registers.append(result.getRegister(reg_index))
         return registers
-
+ 
+    def to_hex(integer):
+        return "0x%0.4X" % integer
+    
+    def get_row():
+	# Get V
+	req = self.client.read_holding_registers(2, 1, unit=25)
+	V = req.getRegister(0) / 100.0
+	# Get I
+	req = self.client.read_holding_registers(7, 2, unit=25)
+	I = int(to_hex(req.getRegister(0)) + (to_hex(req.getRegister(1))[2:]), 16) / 1000.0
+	# Get PAct
+	req = self.client.read_holding_registers(21, 2, unit=25)
+	PAct = int(to_hex(req.getRegister(1)) + (to_hex(req.getRegister(0))[2:]), 16) / 100.0
+	# Get PReact
+	req = self.client.read_holding_registers(29, 2, unit=25)
+	PReact = int(to_hex(req.getRegister(1)) + (to_hex(req.getRegister(0))[2:]), 16) / 100.0
+	# Get FactorPotencia
+	req = self.client.read_holding_registers(10, 1, unit=25)
+	FactorPotencia = req.getRegister(0) / 1000.0
+	# Get Frec
+	req = self.client.read_holding_registers(9, 1, unit=25)
+	Frec = req.getRegister(0) / 100.0
+	# Get PAparente
+	req = self.client.read_holding_registers(11, 2, unit=25)
+	PAparente = int(to_hex(req.getRegister(1)) + (to_hex(req.getRegister(0))[2:]), 16) / 100.0
+	# Return row
+	return [
+		get_device_datetime(self.client).isoformat(),
+		V,
+		I,
+		PAct,
+		PReact,
+		FactorPotencia,
+		Frec,
+		PAparente
+	]
+    
+    def cycle_csv(self,s,num):
+        filename = 'practica_prueba.txt'
+	#if os.path.exists(filename):
+		#header_exists = True
+	#else:
+		#header_exists = False
+	with open(filename, 'a+') as csvfile:
+		writer = csv.writer(csvfile)
+		#if not header_exists:
+                #row = [
+                #                'fecha '+str(num),
+                #                'V '+str(num),
+                #                'I '+str(num),
+                #                'PAct '+str(num),
+                #                'PReact '+str(num),
+                #                'FactorPotencia '+str(num),
+                #                'Frec '+str(num),
+                #                'PAparente '+str(num)
+                #]
+                writer.writerow(row)
+		row = get_row()
+		#writer.writerow(row)
+		#print >> sys.stderr,row
+                csvfile.close()
+	s.enter(1, 1, self.cycle_csv, (s,num+1,))
+    
+    def store_registers(self):
+        s = sched.scheduler(time.time, time.sleep)
+	s.enter(1, 1, self.cycle_csv, (s,0,))
+	s.run()
+        
+    def get_data(self,s):
+        shutil.copyfile('practica_prueba.txt', 'auxiliar.txt')
+        filename = 'auxiliar.txt'
+	with open(filename, 'a+') as csvfile:
+            reader = csv.reader(csvfile)
+            for row in reader:
+                print row
+            csvfile.close()
+        s.enter(1, 1, self.get_data, (s,))
+    
+    def getting_data(self):
+        while not os.path.exists('practica_prueba.txt'):
+            pass
+        s = sched.scheduler(time.time, time.sleep)
+	s.enter(1, 1, self.get_data, (s,))
+	s.run() 
+        
 
 class ModbusDeviceInterface(object):
 
@@ -50,6 +141,12 @@ class ModbusMockDevice(ModbusDeviceInterface):
 
     """ Dispositivo ModBus "dummy" """
     def __init__(self):
+
+        self.modbus_client = ModbusClient(device_id=25)
+        t = threading.Thread(target=self.modbus_client.store_registers)
+        t.start()
+        t2 = threading.Thread(target=self.modbus_client.getting_data)
+        t2.start()
         self.datetime = datetime.now()
 
     def get_datetime(self):
@@ -60,6 +157,7 @@ class ModbusMockDevice(ModbusDeviceInterface):
         return self.datetime
 
     def get_data(self):
+        
         return {
             'Fecha': self.get_datetime(),
             'V': random.uniform(220.0, 240.0),

@@ -1,7 +1,7 @@
 from django.db import models
-from modbus import ModbusDevice
+from modbus import ModbusMockDevice
 
-modbusDevice = ModbusDevice(25)
+modbusDevice = ModbusMockDevice()
 
 
 class ModbusData(models.Model):
