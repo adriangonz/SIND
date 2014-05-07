@@ -43,8 +43,8 @@ class ModbusClient(object):
     def split_hex(self, integer):
         return integer / 256, integer % 256
     
-    def get_device_datetime(self,client):
-	date_registers = self.modbus_client.read_registers(253, 3)
+    def get_device_datetime(self):
+	date_registers = self.client.read_registers(253, 3)
         seconds, minutes = self._split_hex(date_registers[0])
         hour, day = self._split_hex(date_registers[1])
         month, year = self._split_hex(date_registers[2])
@@ -74,7 +74,7 @@ class ModbusClient(object):
 	PAparente = int(self.to_hex(req.getRegister(1)) + (self.to_hex(req.getRegister(0))[2:]), 16) / 100.0
 	# Return row
 	return [
-		self.get_device_datetime(self.client).isoformat(),
+		self.get_device_datetime().isoformat(),
 		V,
 		I,
 		PAct,
