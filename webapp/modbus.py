@@ -115,24 +115,21 @@ class ModbusClient(object):
 	s.enter(1, 1, self.cycle_csv, (s,0,))
 	s.run()
         
-    def get_data(self,s):
+    def get_data(self):
         shutil.copyfile('practica_prueba.txt', 'auxiliar.txt')
         filename = 'auxiliar.txt'
-	"""
+        data = []
         with open(filename, 'a+') as csvfile:
             reader = csv.reader(csvfile)
             for row in reader:
-                print row
+                data.append(row)
             csvfile.close()
-        """
-        s.enter(1, 1, self.get_data, (s,))
+        return data
     
     def getting_data(self):
         while not os.path.exists('practica_prueba.txt'):
             pass
-        s = sched.scheduler(time.time, time.sleep)
-	s.enter(1, 1, self.get_data, (s,))
-	s.run() 
+       return self.get_data() 
         
 
 class ModbusDeviceInterface(object):
@@ -157,8 +154,8 @@ class ModbusMockDevice(ModbusDeviceInterface):
         self.modbus_client = ModbusClient(device_id=25)
         t = threading.Thread(target=self.modbus_client.store_registers)
         t.start()
-        t2 = threading.Thread(target=self.modbus_client.getting_data)
-        t2.start()
+        #t2 = threading.Thread(target=self.modbus_client.getting_data)
+        #t2.start()
         self.datetime = datetime.now()
 
     def get_datetime(self):
@@ -169,17 +166,8 @@ class ModbusMockDevice(ModbusDeviceInterface):
         return self.datetime
 
     def get_data(self):
-        
-        return {
-            'Fecha': self.get_datetime(),
-            'V': random.uniform(220.0, 240.0),
-            'I': random.uniform(1500.0, 1800.0),
-            'PAct': random.uniform(180000.0, 200000.0),
-            'PReact': random.uniform(0.0, 1.0),
-            'FactorPotencia': random.uniform(0.1, 1.0),
-            'Frec': random.uniform(45.0, 50.0),
-            'PAparente': random.uniform(300000.0, 320000.0)
-        }
+        data = self.modbus_client.getting_data()
+        return data
 
 
 class ModbusDevice(ModbusDeviceInterface):
