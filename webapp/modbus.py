@@ -129,7 +129,7 @@ class ModbusClient(object):
     def getting_data(self):
         while not os.path.exists('practica_prueba.txt'):
             pass
-       return self.get_data() 
+        return self.get_data() 
         
 
 class ModbusDeviceInterface(object):
