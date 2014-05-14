@@ -157,6 +157,7 @@ class ModbusMockDevice(ModbusDeviceInterface):
         #t2 = threading.Thread(target=self.modbus_client.getting_data)
         #t2.start()
         self.datetime = datetime.now()
+        self.get_data()
 
     def get_datetime(self):
         return self.datetime
