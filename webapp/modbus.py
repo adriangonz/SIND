@@ -106,7 +106,7 @@ class ModbusClient(object):
                 #writer.writerow(row)
 		row = self.get_row()
 		writer.writerow(row)
-		print >> sys.stderr,row
+		#print >> sys.stderr,row
                 csvfile.close()
 	s.enter(1, 1, self.cycle_csv, (s,num+1,))
     
@@ -167,6 +167,7 @@ class ModbusMockDevice(ModbusDeviceInterface):
 
     def get_data(self):
         data = self.modbus_client.getting_data()
+        print >> sys.stderr,data[0]
         return data
 
 
