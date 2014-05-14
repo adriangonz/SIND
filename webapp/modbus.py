@@ -169,18 +169,18 @@ class ModbusMockDevice(ModbusDeviceInterface):
     def get_data(self):
         data = self.modbus_client.getting_data()
         
-        Vacum = 0
-        Iacum = 0
-        Pacum = 0
+        Vacum = 0.0
+        Iacum = 0.0
+        Pacum = 0.0
         precioKWh = 0.14
         
         for d in data:
-            Vacum+=d[1]
-            Iacum+=d[2]
-            Pacum+=d[3]
+            Vacum+=float(d[1])
+            Iacum+=float(d[2])
+            Pacum+=float(d[3])
             
         ult = data[len(data)-1]
-        Pult = ult[3]
+        Pult = float(ult[3])
         Vmedio = Vacum/len(data)
         Imedia = Iacum/len(data)
         P = Pacum/len(data)
