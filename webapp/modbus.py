@@ -174,14 +174,12 @@ class ModbusMockDevice(ModbusDeviceInterface):
         Pacum = 0
         precioKWh = 0.14
         
-        for i in range(len(data)):
-            s = d[i].split(",")
-            Vacum+=s[1]
-            Iacum+=s[2]
-            Pacum+=s[3]
+        for d in data:
+            Vacum+=d[1]
+            Iacum+=d[2]
+            Pacum+=d[3]
             
-        str_ult = data[len(data)-1]
-        ult = str_ult.split(",")
+        ult = data[len(data)-1]
         Pult = ult[3]
         Vmedio = Vacum/len(data)
         Imedia = Iacum/len(data)
