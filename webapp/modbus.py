@@ -168,8 +168,33 @@ class ModbusMockDevice(ModbusDeviceInterface):
 
     def get_data(self):
         data = self.modbus_client.getting_data()
-        print >> sys.stderr,data[0]
-        return data
+        
+        Vacum = 0
+        Iacum = 0
+        Pacum = 0
+        precioKWh = 0.14
+        
+        for d in data:
+            s = d.split(",")
+            Vacum+=s[1]
+            Iacum+=s[2]
+            Pacum+=s[3]
+            
+        str_ult = data[len(data)-1]
+        ult = str_ult.split(",")
+        Pult = ult[3]
+        Vmedio = Vacum/len(data)
+        Imedia = Iacum/len(data)
+        P = Pacum/len(data)
+        ConsumoInst = (Pult/3600)*precioKWh  
+        ConsumoDiario = (Pacum/3600)*precioKWh
+        return {
+            'Vmedio': Vmedio,
+            'Imedia': Imedia,
+            'ConsumoInst': ConsumoInst,
+            'ConsumoDiario': ConsumoDiario,
+            'P': P
+        }
 
 
 class ModbusDevice(ModbusDeviceInterface):
