@@ -152,8 +152,8 @@ class ModbusMockDevice(ModbusDeviceInterface):
     def __init__(self):
 
         self.modbus_client = ModbusClient(device_id=25)
-        t = threading.Thread(target=self.modbus_client.store_registers)
-        t.start()
+        #t = threading.Thread(target=self.modbus_client.store_registers)
+        #t.start()
         #t2 = threading.Thread(target=self.modbus_client.getting_data)
         #t2.start()
         self.datetime = datetime.now()
