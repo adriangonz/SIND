@@ -187,6 +187,7 @@ class ModbusMockDevice(ModbusDeviceInterface):
         ConsumoInst = (Pult/3600)*precioKWh  
         ConsumoDiario = (Pacum/3600)*precioKWh
         print >> sys.stderr,Vmedio
+        print >> sys.stderr,"Me meto en get_data"
         return {
             'Vmedio': Vmedio,
             'Imedia': Imedia,
