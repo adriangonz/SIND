@@ -29,7 +29,7 @@
                 <!-- <header class="navbar navbar-inverse  bs-docs-nav" role="banner">
                  
                </header>-->
-                <script> //document.write(JSON.stringify(_data));
+                <script> //document.write(_data.Imedia);
                     //d = JSON.parse(_data);
                
                 </script>
@@ -39,7 +39,7 @@
                         <div id="consumoInst" class="well well-sm">
                             <script>
                                
-                                document.write((_data[_data.length-1]).fields.ConsumoInst.toFixed(2));
+                                document.write(_data.ConsumoInst.toFixed(2));
                             </script>
                             €/h
                         </div>
@@ -49,7 +49,7 @@
                         <div id="consumoDiario" class="well well-sm">
                             <script>
                                
-                                document.write((_data[_data.length-1]).fields.ConsumoDiario.toFixed(2));
+                                document.write(_data.ConsumoDiario.toFixed(2));
                             </script>
                             €
                         </div>
@@ -59,7 +59,7 @@
                         <div id="voltaje" class="well well-sm">
                             <script>
                                
-                                document.write((_data[_data.length-1]).fields.Vmedio.toFixed(2));
+                               document.write(_data.Vmedio.toFixed(2));
                             </script>
                             V
                         </div>
@@ -69,7 +69,7 @@
                         <div id="intensidad" class="well well-sm">
                             <script>
                                
-                                document.write((_data[_data.length-1]).fields.Imedia.toFixed(2));
+                                document.write(_data.Imedia.toFixed(2));
                             </script>
                             A
                         </div>
@@ -79,7 +79,7 @@
                         <div id="consumoInst" class="well well-sm">
                             <script>
                                
-                                document.write((_data[_data.length-1]).fields.P.toFixed(2));
+                                document.write(_data.P.toFixed(2));
                             </script>
                             kW
                         </div>
